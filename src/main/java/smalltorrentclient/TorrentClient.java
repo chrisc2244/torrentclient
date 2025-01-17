@@ -1,4 +1,4 @@
-package org.example;
+package smalltorrentclient;
 
 import java.io.IOException;
 

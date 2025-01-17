@@ -1,4 +1,4 @@
-package org.example;
+package smalltorrentclient;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -104,7 +104,7 @@ e
 		}
 	}
 
-	private static String DecodeString(Iterator<Byte> iterator, byte b)
+	public static String DecodeString(Iterator<Byte> iterator, byte b)
 
 	{
 
