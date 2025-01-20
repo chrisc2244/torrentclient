@@ -1,12 +1,16 @@
 package smalltorrentclient;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import static smalltorrentclient.BencodingDecoder.createIterator;
 import static smalltorrentclient.BencodingDecoder.decodeInteger;
+import static smalltorrentclient.BencodingDecoder.decodeObject;
 import static smalltorrentclient.BencodingDecoder.decodeString;
 
 public class BencodingDecoderTest
@@ -50,12 +54,30 @@ public class BencodingDecoderTest
 		long answer = decodeInteger(iterator);
 
 		assertEquals(rightAnswer, answer);
-
-
 	}
-
 	@Test
-	public void testDecode()
-	{
+	public void testDecode() {
+		String resourceName = "test.torrent";
+		try {
+			// Debugging: Check the resource URL
+			java.net.URL resourceUrl = getClass().getClassLoader().getResource(resourceName);
+			assertNotNull(String.valueOf(resourceUrl), "Resource not found: " + resourceName);
+			System.out.println("Resource found at: " + resourceUrl);
+
+			// Load the resource as InputStream
+			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourceName);
+			assertNotNull(inputStream.toString(), "Failed to load resource as InputStream: " + resourceName);
+
+			byte[] input = inputStream.readAllBytes();
+			System.out.println(input.length + " bytes");
+
+			System.out.println(decodeObject(createIterator(input)));
+
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to load torrent file", e);
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to decode torrent file", e);
+		}
 	}
+
 }

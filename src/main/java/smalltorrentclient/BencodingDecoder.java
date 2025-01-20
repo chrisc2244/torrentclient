@@ -58,7 +58,7 @@ e
 		 */
 
 
-	private static Object decodeObject(ListIterator<Byte> iterator)
+	public static Object decodeObject(ListIterator<Byte> iterator)
 	{
 		if (!iterator.hasNext())
 		{
@@ -207,6 +207,8 @@ e
 		return inputList.listIterator();
 
 	}
+
+
 
 	public TorrentInfo decode(byte[] input)
 	{

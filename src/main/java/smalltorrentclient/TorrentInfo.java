@@ -1,6 +1,7 @@
 package smalltorrentclient;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class TorrentInfo
 {
@@ -45,100 +46,68 @@ public class TorrentInfo
 	public ArrayList<String> pieces = new ArrayList<>();
 	public String privacy;
 
-	private TorrentInfo(TorrentInfoBuilder torrentInfoBuilder)
+	public static TorrentInfo createTorrentInfo(LinkedHashMap<String, Object> decodedBytes)
 	{
-		this.announce = torrentInfoBuilder.announce;
-		this.announceList = torrentInfoBuilder.announceList;
-		this.creationDate = torrentInfoBuilder.creationDate;
-		this.comment = torrentInfoBuilder.comment;
-		this.createdBy = torrentInfoBuilder.createdBy;
-		this.encoding = torrentInfoBuilder.encoding;
-		this.length = torrentInfoBuilder.length;
-		this.pieceLength = torrentInfoBuilder.pieceLength;
-		this.pieces = torrentInfoBuilder.pieces;
-		this.privacy = torrentInfoBuilder.privacy;
+		TorrentInfo torrentInfo = new TorrentInfo();
+
+
+		return torrentInfo;
+
 	}
 
-
-	public static class TorrentInfoBuilder
+	public void setAnnounce(String announce)
 	{
-
-		public String announce;
-		public ArrayList<String> announceList = new ArrayList<>();
-		public String creationDate;
-		public String comment;
-		public String createdBy;
-		public String encoding;
-		public long length;
-		public String name;
-		public long pieceLength;
-		public ArrayList<String> pieces = new ArrayList<>();
-		public String privacy;
-
-		public TorrentInfoBuilder()
-		{
-		}
-
-		public void setAnnounce(String announce)
-		{
-			this.announce = announce;
-		}
-
-		public void setAnnounceList(ArrayList<String> announceList)
-		{
-			this.announceList = announceList;
-		}
-
-		public void setComment(String comment)
-		{
-			this.comment = comment;
-		}
-
-		public void setCreationDate(String creationDate)
-		{
-			this.creationDate = creationDate;
-		}
-
-		public void setCreatedBy(String createdBy)
-		{
-			this.createdBy = createdBy;
-		}
-
-		public void setEncoding(String encoding)
-		{
-			this.encoding = encoding;
-		}
-
-		public void setLength(long length)
-		{
-			this.length = length;
-		}
-
-		public void setName(String name)
-		{
-			this.name = name;
-		}
-
-		public void setPieceLength(long pieceLength)
-		{
-			this.pieceLength = pieceLength;
-		}
-
-		public void setPieces(ArrayList<String> pieces)
-		{
-			this.pieces = pieces;
-		}
-
-		public void setPrivacy(String privacy)
-		{
-			this.privacy = privacy;
-		}
-
-		public TorrentInfo build()
-		{
-			return new TorrentInfo(this);
-		}
+		this.announce = announce;
 	}
 
+	public void setAnnounceList(ArrayList<String> announceList)
+	{
+		this.announceList = announceList;
+	}
 
+	public void setComment(String comment)
+	{
+		this.comment = comment;
+	}
+
+	public void setCreationDate(String creationDate)
+	{
+		this.creationDate = creationDate;
+	}
+
+	public void setCreatedBy(String createdBy)
+	{
+		this.createdBy = createdBy;
+	}
+
+	public void setEncoding(String encoding)
+	{
+		this.encoding = encoding;
+	}
+
+	public void setLength(long length)
+	{
+		this.length = length;
+	}
+
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+
+	public void setPieceLength(long pieceLength)
+	{
+		this.pieceLength = pieceLength;
+	}
+
+	public void setPieces(ArrayList<String> pieces)
+	{
+		this.pieces = pieces;
+	}
+
+	public void setPrivacy(String privacy)
+	{
+		this.privacy = privacy;
+	}
 }
+
