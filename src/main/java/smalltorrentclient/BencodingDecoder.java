@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
+
 
 public class BencodingDecoder
 {
@@ -56,100 +58,145 @@ e
 		 */
 
 
-	public TorrentInfo decode(byte[] input)
+	private static Object decodeObject(ListIterator<Byte> iterator)
 	{
-		TorrentInfo torrentInfo = null;
-		LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-		// bruh you can insert another dict by just using the object type. duh, info is the key and the other dict is the object.
+		if (!iterator.hasNext())
+		{
+			throw new IllegalArgumentException("Iterator is empty");
+		}
 
-		decodeHelper(input, map);
+		Byte b = iterator.next();
 
-		// write some stuff here to fill out torrentInfo with map info
-		// build torrent method
-		// probably just searching for each key and filling it out
 
-		return torrentInfo;
+		switch (b)
+		{
+			case 'i':
+				return decodeInteger(iterator);
+
+			case 'l':
+				return decodeList(iterator);
+
+			case 'd':
+				return decodeDict(iterator);
+
+			default:
+				if (Character.isDigit(b))
+				{
+					return decodeString(iterator, b);
+
+				}
+				else if (b == 'e')
+				{
+					throw new IllegalArgumentException("Unexpected 'e' byte, malformed torrent maybe");
+				}
+				else
+				{
+					throw new IllegalArgumentException("Unrecognized byte: " + b);
+				}
+
+
+		}
 	}
 
-	private static void decodeHelper(byte[] input, LinkedHashMap<String, Object> output)
+	public static String decodeString(ListIterator<Byte> iterator, Byte b)
+
+	{
+		StringBuilder digitsOfStringLength = new StringBuilder();
+		digitsOfStringLength.append(Character.getNumericValue(b));
+		Byte currentByte = iterator.next();
+
+		while (currentByte != ':')
+		{
+			int numericValue = Character.getNumericValue(currentByte);
+			digitsOfStringLength.append(numericValue);
+			currentByte = iterator.next();
+		}
+
+		int totalStringLength = Integer.parseInt(digitsOfStringLength.toString());
+
+		StringBuilder finalString = new StringBuilder();
+		for (int i = 0; i < totalStringLength; i++)
+		{
+			char characterValue = (char) iterator.next().byteValue();
+			finalString.append(characterValue);
+		}
+
+		return finalString.toString();
+	}
+
+	private static ArrayList<Object> decodeList(ListIterator<Byte> iterator)
 	{
 
-		Iterator<Byte> iterator = createIterator(input);
+		ArrayList<Object> list = new ArrayList<>();
+
 
 		while (iterator.hasNext())
 		{
-			Byte b = iterator.next();
+			byte b = iterator.next();
 
-			if (b == 'd')
+			if (b == 'e')
 			{
-				DecodeDict(iterator, output);
+				break;
 			}
-			else if (b == 'l')
-			{
-				DecodeList(iterator);
 
-			}
-			else if (b == 'i')
-			{
-				DecodeInteger(iterator);
-			}
-			else if (Character.isDigit(b))
-			{
-				DecodeString(iterator, b);
-			}
-			else
-			{
-				throw new IllegalArgumentException("Unrecognized character: " + b);
-			}
+			// Because now b is the first byte of a new object, but we already consumed it
+			iterator.previous();
+
+			list.add(decodeObject(iterator));
 		}
+
+		return list;
+
 	}
 
-	public static String DecodeString(Iterator<Byte> iterator, byte b)
 
+	/*
+	 According to https://wiki.theory.org/BitTorrentSpecification#Integers , "the maximum number of bit of this integer is unspecified,
+	 but to handle it as a signed 64-bit integer is mandatory to handle "large files" aka .torrent for more than 4 GB"
+	*/
+	public static Long decodeInteger(ListIterator<Byte> iterator)
 	{
 
+		StringBuilder longBuilder = new StringBuilder();
 
-		StringBuilder buildNumber = new StringBuilder();
-		byte current = iterator.next();
-
-		while (current != ':')
+		while (iterator.hasNext())
 		{
-			buildNumber.append(current);
-			current = iterator.next();
+			byte b = iterator.next();
+
+			if (b == 'e')
+			{
+				break;
+			}
+			// Can't do Character.getNumericValue because we can have a negative symbol
+			longBuilder.append(((char) b));
 		}
 
-		int totalBytesInString = Integer.parseInt(buildNumber.toString());
+		return Long.parseLong(longBuilder.toString());
+	}
 
-		StringBuilder buildString = new StringBuilder();
-		for (int i = 0; i < totalBytesInString; i++)
+	private static LinkedHashMap<String, Object> decodeDict(ListIterator<Byte> iterator)
+	{
+		LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+
+		while (iterator.hasNext())
 		{
-			buildString.append(iterator.next());
+			byte b = iterator.next();
+
+			if (b == 'e')
+			{
+				break;
+			}
+
+			String key = decodeString(iterator, b);
+			Object value = decodeObject(iterator);
+
+			map.put(key, value);
 		}
 
-		return buildString.toString();
+		return map;
 	}
 
-
-	private static void DecodeList(Iterator<Byte> iterator)
-	{
-		System.out.println("IM INSIDE DECODELISTTTT");
-	}
-
-	private static void DecodeInteger(Iterator<Byte> iterator)
-	{
-		System.out.println("IM INSIDE decodeint");
-	}
-
-	private static void DecodeDict(Iterator<Byte> iterator, LinkedHashMap<String, Object> map)
-	{
-		LinkedHashMap<String, Object> innerMap = new LinkedHashMap<>();
-
-
-		System.out.println("IM INSIDE DECODEDICT");
-
-	}
-
-	private static Iterator<Byte> createIterator(byte[] bytes)
+	public static ListIterator<Byte> createIterator(byte[] bytes)
 	{
 
 		List<Byte> inputList = new ArrayList<>();
@@ -157,7 +204,16 @@ e
 		{
 			inputList.add(b);
 		}
-		return inputList.iterator();
+		return inputList.listIterator();
 
+	}
+
+	public TorrentInfo decode(byte[] input)
+	{
+		TorrentInfo torrentInfo = null;
+
+		decodeObject(createIterator(input));
+
+		return torrentInfo;
 	}
 }
