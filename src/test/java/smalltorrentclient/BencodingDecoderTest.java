@@ -57,7 +57,7 @@ public class BencodingDecoderTest
 	}
 	@Test
 	public void testDecode() {
-		String resourceName = "test.torrent";
+		String resourceName = "debian-12.8.0-amd64-netinst.iso.torrent";
 		try {
 			// Debugging: Check the resource URL
 			java.net.URL resourceUrl = getClass().getClassLoader().getResource(resourceName);
