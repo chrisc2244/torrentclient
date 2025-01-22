@@ -197,12 +197,9 @@ public class BencodingDecoder
 	}
 
 
-	public TorrentInfo decode(byte[] input)
+	LinkedHashMap<String, Object> decode(byte[] input)
 	{
-		TorrentInfo torrentInfo = null;
 
-		decodeObject(createIterator(input));
-
-		return torrentInfo;
+		return new LinkedHashMap<String, Object>(decodeDict(createIterator(input)));
 	}
 }

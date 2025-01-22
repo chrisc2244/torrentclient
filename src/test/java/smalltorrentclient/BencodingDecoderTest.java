@@ -59,12 +59,10 @@ public class BencodingDecoderTest
 	public void testDecode() {
 		String resourceName = "debian-12.8.0-amd64-netinst.iso.torrent";
 		try {
-			// Debugging: Check the resource URL
 			java.net.URL resourceUrl = getClass().getClassLoader().getResource(resourceName);
 			assertNotNull(String.valueOf(resourceUrl), "Resource not found: " + resourceName);
 			System.out.println("Resource found at: " + resourceUrl);
 
-			// Load the resource as InputStream
 			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(resourceName);
 			assertNotNull(inputStream.toString(), "Failed to load resource as InputStream: " + resourceName);
 

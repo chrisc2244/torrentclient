@@ -1,17 +1,33 @@
 package smalltorrentclient;
 
-import java.io.IOException;
-
 public class TorrentClient {
 
   public static void main(String[] args) {
-    try {
-      byte[] input = TorrentFileLoader.load("testtorrent.torrent");
-      System.out.println(input.length + " bytes");
-    } catch (IOException e) {
-      throw new RuntimeException("Failed to load torrent file", e);
-    } catch (Exception e) {
-      throw new RuntimeException("Failed to decode torrent file", e);
-    }
+
+	  /*
+	  Load torrent
+	  Parse it and fill out Torrent class
+	  Contact the tracker
+	  Connect to peers and perform handshake
+	  Message handling loop
+	  Piece manager
+	  Reassemble the files
+	  Event loop
+	   */
+
+	  /*
+
+	  open ui, wait for user to drag in torrent file
+	  once torrent file is dragged in, start the download and show a progress bar and cancel button
+
+
+	  torrentClient.start();
+
+	   */
+
+
+
+
+
   }
 }
