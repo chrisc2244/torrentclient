@@ -1,12 +1,12 @@
-package smalltorrentclient;
+package smalltorrentclient.metainfo;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
-import static smalltorrentclient.BencodingDecoder.createIterator;
-import static smalltorrentclient.BencodingDecoder.decodeObject;
+import static smalltorrentclient.metainfo.BencodingDecoder.createIterator;
+import static smalltorrentclient.metainfo.BencodingDecoder.decodeObject;
 
 public class TorrentFileLoader
 {

@@ -1,4 +1,4 @@
-package smalltorrentclient;
+package smalltorrentclient.metainfo;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -197,7 +197,7 @@ public class BencodingDecoder
 	}
 
 
-	LinkedHashMap<String, Object> decode(byte[] input)
+	public LinkedHashMap<String, Object> decode(byte[] input)
 	{
 
 		return new LinkedHashMap<String, Object>(decodeDict(createIterator(input)));

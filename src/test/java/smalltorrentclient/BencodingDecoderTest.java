@@ -8,10 +8,10 @@ import java.util.ListIterator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
-import static smalltorrentclient.BencodingDecoder.createIterator;
-import static smalltorrentclient.BencodingDecoder.decodeInteger;
-import static smalltorrentclient.BencodingDecoder.decodeObject;
-import static smalltorrentclient.BencodingDecoder.decodeString;
+import static smalltorrentclient.metainfo.BencodingDecoder.createIterator;
+import static smalltorrentclient.metainfo.BencodingDecoder.decodeInteger;
+import static smalltorrentclient.metainfo.BencodingDecoder.decodeObject;
+import static smalltorrentclient.metainfo.BencodingDecoder.decodeString;
 
 public class BencodingDecoderTest
 {

@@ -1,4 +1,4 @@
-package smalltorrentclient;
+package smalltorrentclient.metainfo;
 
 import java.util.ArrayList;
 
