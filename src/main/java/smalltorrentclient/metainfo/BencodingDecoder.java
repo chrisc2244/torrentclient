@@ -38,11 +38,11 @@ public class BencodingDecoder
 				}
 				else if (b == 'e')
 				{
-					throw new IllegalArgumentException("Unexpected 'e' byte, malformed torrent maybe");
+					throw new IllegalArgumentException("Unexpected 'e' byte");
 				}
 				else
 				{
-					throw new IllegalArgumentException("Unrecognized byte: " + b);
+					throw new IllegalArgumentException("Unrecognized byte: " + b + " at iterator position " + iterator.previousIndex());
 				}
 
 
@@ -103,7 +103,7 @@ public class BencodingDecoder
 
 	/*
 	 According to https://wiki.theory.org/BitTorrentSpecification#Integers , "the maximum number of bit of this integer is unspecified,
-	 but to handle it as a signed 64-bit integer is mandatory to handle "large files" aka .torrent for more than 4 GB"
+	 but to handle it as a signed 64-bit integer is mandatory to handle "large fileInfos" aka .torrent for more than 4 GB"
 	*/
 	public static Long decodeInteger(ListIterator<Byte> iterator)
 	{
@@ -178,28 +178,23 @@ public class BencodingDecoder
 			bytes[i] = iterator.next();
 		}
 
-		System.out.println(bytes.length);
-
 		return bytes;
 	}
 
 
 	public static ListIterator<Byte> createIterator(byte[] bytes)
 	{
-
 		List<Byte> inputList = new ArrayList<>();
 		for (byte b : bytes)
 		{
 			inputList.add(b);
 		}
 		return inputList.listIterator();
-
 	}
 
 
 	public LinkedHashMap<String, Object> decode(byte[] input)
 	{
-
-		return new LinkedHashMap<String, Object>(decodeDict(createIterator(input)));
+		return new LinkedHashMap<>((LinkedHashMap<String, Object>) decodeObject(createIterator(input)));
 	}
 }

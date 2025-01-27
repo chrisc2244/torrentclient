@@ -1,13 +1,17 @@
 package smalltorrentclient;
 
+import smalltorrentclient.metainfo.TorrentInfo;
+import smalltorrentclient.metainfo.TorrentLoader;
+
 public class Main
 {
 
-  public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 
 	  /*
 	  Load torrent
-	  Parse it and fill out Torrent class
+	  Parse it and fill out TorrentInfo class
 	  Contact the tracker
 	  Connect to peers and perform handshake
 	  Message handling loop
@@ -26,9 +30,12 @@ public class Main
 
 	   */
 
+		TorrentLoader torrentLoader = new TorrentLoader();
+
+		TorrentInfo torrentInfo = torrentLoader.createTorrentInfo("debian-12.8.0-amd64-netinst.iso.torrent");
+
+		System.out.println("Printing torrentinfo: " + torrentInfo);
 
 
-
-
-  }
+	}
 }
