@@ -129,6 +129,7 @@ public class BencodingDecoder
 	{
 		LinkedHashMap<String, Object> map = new LinkedHashMap<>();
 
+
 		while (iterator.hasNext())
 		{
 			byte b = iterator.next();
@@ -145,6 +146,16 @@ public class BencodingDecoder
 			{
 				value = decodeBytes(iterator);
 			}
+
+			else if (key.equals("info"))
+			{
+
+				value = decodeObject(iterator);
+
+
+			}
+
+
 			else
 			{
 				value = decodeObject(iterator);

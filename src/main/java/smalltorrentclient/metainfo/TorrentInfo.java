@@ -17,7 +17,7 @@ public class TorrentInfo
 	public String createdBy;
 	public String encoding;
 
-	// If single file or multi-file type info
+	// single file or multi-file type info
 	public Boolean singleFile;
 	public SingleFileInfo singleFileInfo;
 	public MultiFileInfo multiFileInfo;

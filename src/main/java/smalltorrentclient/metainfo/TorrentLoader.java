@@ -23,7 +23,7 @@ public class TorrentLoader
 //		return fileContent;
 //	}
 //
-	private byte[] loadFromResource(String filename)
+	byte[] loadFromResource(String filename)
 	{
 		byte[] fileContent;
 
