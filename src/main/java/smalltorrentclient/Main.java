@@ -1,12 +1,15 @@
 package smalltorrentclient;
 
+import java.security.NoSuchAlgorithmException;
 import smalltorrentclient.metainfo.TorrentInfo;
-import smalltorrentclient.metainfo.TorrentLoader;
+import static smalltorrentclient.metainfo.TorrentLoader.createTorrentInfo;
+import smalltorrentclient.tracker.TrackerRequest;
+import static smalltorrentclient.tracker.InitialTrackerRequestLoader.createInitialTrackerRequest;
 
 public class Main
 {
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws NoSuchAlgorithmException
 	{
 
 	  /*
@@ -30,11 +33,19 @@ public class Main
 
 	   */
 
-		TorrentLoader torrentLoader = new TorrentLoader();
 
-		TorrentInfo torrentInfo = torrentLoader.createTorrentInfo("debian-12.8.0-amd64-netinst.iso.torrent");
+
+		TorrentInfo torrentInfo = createTorrentInfo("debian-12.8.0-amd64-netinst.iso.torrent");
 
 		System.out.println("Printing torrentinfo: " + torrentInfo);
+
+		TrackerRequest trackerRequest = createInitialTrackerRequest(torrentInfo);
+
+		System.out.println("Printing initial trackerRequest: " + trackerRequest);
+
+
+
+
 
 
 	}

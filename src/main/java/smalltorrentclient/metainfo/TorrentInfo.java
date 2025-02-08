@@ -1,7 +1,7 @@
 package smalltorrentclient.metainfo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedHashMap;
 
 public class TorrentInfo
 {
@@ -22,7 +22,9 @@ public class TorrentInfo
 	public SingleFileInfo singleFileInfo;
 	public MultiFileInfo multiFileInfo;
 
-	public byte[] infoHash;
+	// use this for re-bencoding to calculate infoHash in TrackerRequest
+	public LinkedHashMap<String, Object> infoMap;
+
 
 	@Override
 	public String toString()
@@ -37,7 +39,7 @@ public class TorrentInfo
 			", singleFile=" + singleFile +
 			", singleFileInfo=" + singleFileInfo +
 			", multiFileInfo=" + multiFileInfo +
-			", infoHash=" + Arrays.toString(infoHash) +
+			", infoMap=" + infoMap +
 			'}';
 	}
 }

@@ -47,7 +47,7 @@ public class TorrentLoader
 		return fileContent;
 	}
 
-	public TorrentInfo createTorrentInfo(String filename)
+	public static TorrentInfo createTorrentInfo(String filename)
 	{
 		TorrentLoader loader = new TorrentLoader();
 		BencodingDecoder decoder = new BencodingDecoder();
@@ -102,12 +102,13 @@ public class TorrentLoader
 		}
 
 		LinkedHashMap<String, Object> infoMap = (LinkedHashMap<String, Object>) decodedMap.get("info");
+		torrent.infoMap = infoMap;
 		parseInfoMap(infoMap, torrent);
 
 		return torrent;
 	}
 
-	private ArrayList<ArrayList<String>> parseAnnounceList(ArrayList<Object> announceList)
+	private static ArrayList<ArrayList<String>> parseAnnounceList(ArrayList<Object> announceList)
 	{
 
 		ArrayList<ArrayList<String>> parsedAnnounceList = new ArrayList<>();
@@ -132,7 +133,7 @@ public class TorrentLoader
 		return parsedAnnounceList;
 	}
 
-	private void parseInfoMap(LinkedHashMap<String, Object> infoMap, TorrentInfo torrent)
+	private static void parseInfoMap(LinkedHashMap<String, Object> infoMap, TorrentInfo torrent)
 	{
 		// If this is here then it's multi file
 		Object files = infoMap.get("fileInfos");
@@ -229,7 +230,7 @@ public class TorrentLoader
 		}
 	}
 
-	private FileInfo parseFileEntry(LinkedHashMap<String, Object> fileInfo)
+	private static FileInfo parseFileEntry(LinkedHashMap<String, Object> fileInfo)
 	{
 
 		FileInfo file = new FileInfo();
@@ -263,7 +264,7 @@ public class TorrentLoader
 		return file;
 	}
 
-	private ArrayList<byte[]> splitPieces(byte[] piecesBytes)
+	private static ArrayList<byte[]> splitPieces(byte[] piecesBytes)
 	{
 		final int hashSize = 20;
 		ArrayList<byte[]> piecesHashes = new ArrayList<>();
