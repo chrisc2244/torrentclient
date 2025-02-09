@@ -13,7 +13,9 @@ public class TrackerRequest
 	public int uploaded;
 	public int downloaded;
 	public int left;
-	public boolean compact;
+
+	public boolean compact = true;
+
 	public boolean noPeerId;
 	//not always specified
 	public String event;

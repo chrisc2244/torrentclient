@@ -7,12 +7,12 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import static smalltorrentclient.tracker.TrackerResponseLoader.parseTrackerResponse;
 
 public class TrackerRequester
 {
 
-
-	public static byte[] fetchTrackerResponse(TrackerRequest trackerRequest) throws URISyntaxException, IOException
+	public static byte[] fetchRawTrackerResponse(TrackerRequest trackerRequest) throws URISyntaxException, IOException
 	{
 		String trackerUrl = buildTrackerUrl(trackerRequest);
 
@@ -34,6 +34,7 @@ public class TrackerRequester
 		try (InputStream inputStream = connection.getInputStream())
 		{
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+			// I have no idea if this is the right size
 			byte[] temp = new byte[4096];
 			int read;
 			while ((read = inputStream.read(temp)) != -1)
@@ -46,15 +47,19 @@ public class TrackerRequester
 
 	}
 
-
 	public static String buildTrackerUrl(TrackerRequest trackerRequest)
 	{
 
-		String urlencodedInfoHash = urlEncodeByteArray(trackerRequest.infoHash);
-		String urlencodedPeerId = urlEncodeByteArray(trackerRequest.peerId);
-
-		// "http://tracker.example.com/announce?info_hash=%12AB...&peer_id=%CC..."
-		//   + "&port=6881&uploaded=0&downloaded=0&left=12345&event=started"
+		/*
+		http://some.tracker.com:999/announce
+		?info_hash=12345678901234567890
+		&peer_id=ABCDEFGHIJKLMNOPQRST
+		&ip=255.255.255.255
+		&port=6881
+		&downloaded=1234
+		&left=98765
+		&event=stopped
+		 */
 
 		// im pretty sure it should never have a ? and we have to append... but just to be sure...
 		StringBuilder sb = new StringBuilder(trackerRequest.announce);
@@ -67,6 +72,10 @@ public class TrackerRequester
 			sb.append('&');
 		}
 
+		// I'm quite certain there is a framework or URIBuilder or something
+		// I can use instead of doing this... too bad!
+		String urlencodedInfoHash = urlEncodeByteArray(trackerRequest.infoHash);
+		String urlencodedPeerId = urlEncodeByteArray(trackerRequest.peerId);
 
 		sb.append("info_hash=").append(urlencodedInfoHash);
 		sb.append("&peer_id=").append(urlencodedPeerId);
@@ -74,6 +83,7 @@ public class TrackerRequester
 		sb.append("&uploaded=").append(trackerRequest.uploaded);
 		sb.append("&downloaded=").append(trackerRequest.downloaded);
 		sb.append("&left=").append(trackerRequest.left);
+		sb.append("&compact=1");
 
 		// must be one of started, completed, stopped if specified
 		if (trackerRequest.event != null)
@@ -81,9 +91,11 @@ public class TrackerRequester
 			sb.append("&event=").append(trackerRequest.event);
 		}
 
-		return sb.toString();
-	}
+		String trackerUrl = sb.toString();
+		System.out.println("Built tracker URL: " + trackerUrl);
 
+		return trackerUrl;
+	}
 
 	private static String urlEncodeByteArray(byte[] array)
 	{
@@ -97,5 +109,12 @@ public class TrackerRequester
 		}
 
 		return sb.toString();
+	}
+
+	public TrackerResponse fetchTrackerResponse(TrackerRequest trackerRequest) throws URISyntaxException, IOException
+	{
+		byte[] rawResponse = fetchRawTrackerResponse(trackerRequest);
+
+		return parseTrackerResponse(rawResponse);
 	}
 }

@@ -1,15 +1,19 @@
 package smalltorrentclient;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.security.NoSuchAlgorithmException;
 import smalltorrentclient.metainfo.TorrentInfo;
 import static smalltorrentclient.metainfo.TorrentLoader.createTorrentInfo;
 import smalltorrentclient.tracker.TrackerRequest;
-import static smalltorrentclient.tracker.InitialTrackerRequestLoader.createInitialTrackerRequest;
+import static smalltorrentclient.tracker.TrackerRequestLoader.createInitialTrackerRequest;
+import smalltorrentclient.tracker.TrackerRequester;
+import smalltorrentclient.tracker.TrackerResponse;
 
 public class Main
 {
 
-	public static void main(String[] args) throws NoSuchAlgorithmException
+	public static void main(String[] args) throws NoSuchAlgorithmException, URISyntaxException, IOException
 	{
 
 	  /*
@@ -35,13 +39,21 @@ public class Main
 
 
 
+		// load the torrent file
 		TorrentInfo torrentInfo = createTorrentInfo("debian-12.8.0-amd64-netinst.iso.torrent");
-
 		System.out.println("Printing torrentinfo: " + torrentInfo);
 
-		TrackerRequest trackerRequest = createInitialTrackerRequest(torrentInfo);
+		// get the info needed to send initial tracker request
+		TrackerRequest initialTrackerRequest = createInitialTrackerRequest(torrentInfo);
+		System.out.println("Printing initial trackerRequest: " + initialTrackerRequest);
 
-		System.out.println("Printing initial trackerRequest: " + trackerRequest);
+		// send the initial tracker request
+		TrackerRequester trackerRequester = new TrackerRequester();
+		TrackerResponse trackerResponse = trackerRequester.fetchTrackerResponse(initialTrackerRequest);
+
+		System.out.println("Printing trackerResponse: " + trackerResponse);
+
+
 
 
 

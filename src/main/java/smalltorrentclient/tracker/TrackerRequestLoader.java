@@ -7,9 +7,8 @@ import java.util.Random;
 import smalltorrentclient.metainfo.BencodingEncoder;
 import smalltorrentclient.metainfo.TorrentInfo;
 
-public class InitialTrackerRequestLoader
+public class TrackerRequestLoader
 {
-
 
 	public static TrackerRequest createInitialTrackerRequest(TorrentInfo torrentInfo) throws NoSuchAlgorithmException
 	{
@@ -21,8 +20,9 @@ public class InitialTrackerRequestLoader
 		trackerRequest.port = 6881;
 		trackerRequest.uploaded = 0;
 		trackerRequest.downloaded = 0;
-		//this has to be from the torrentinfo length or something idk
+		// TODO: this has to be from the torrentinfo length or something idk
 		// trackerRequest.left = ;
+
 		trackerRequest.event = "started";
 
 

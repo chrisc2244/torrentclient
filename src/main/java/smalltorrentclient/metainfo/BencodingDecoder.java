@@ -140,22 +140,16 @@ public class BencodingDecoder
 			}
 
 			String key = decodeString(iterator, b);
-
 			Object value;
+
 			if (key.equals("pieces"))
 			{
 				value = decodeBytes(iterator);
 			}
-
-			else if (key.equals("info"))
+			else if (key.equals("peers"))
 			{
-
-				value = decodeObject(iterator);
-
-
+				value = decodePeersValue(iterator);
 			}
-
-
 			else
 			{
 				value = decodeObject(iterator);
@@ -166,6 +160,32 @@ public class BencodingDecoder
 		}
 
 		return map;
+	}
+
+	private static Object decodePeersValue(ListIterator<Byte> iterator)
+	{
+		if (!iterator.hasNext())
+		{
+			throw new IllegalArgumentException("Iterator is empty for peers");
+		}
+
+		byte b = iterator.next();
+		iterator.previous();
+
+		if (b == 'l')
+		{
+			return decodeList(iterator);
+		}
+		else if (Character.isDigit(b))
+		{
+			return decodeBytes(iterator);
+		}
+		else
+		{
+			throw new IllegalArgumentException("Peers key: expected 'l' or digit, got: " + (char) b);
+		}
+
+
 	}
 
 	private static byte[] decodeBytes(ListIterator<Byte> iterator)
