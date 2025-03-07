@@ -1,14 +1,15 @@
-package smalltorrentclient.tracker;
+package smalltorrentclient.peer;
 
 public class Peer
 {
 
 	// I guess this is optional, the bittorrent spec doesn't say it is...
 	// but when I do a test request on the debian tracker im not getting one, so...
-	String peerId;
+	public String peerId;
 
-	String ip;
-	Long port;
+	public String ip;
+	public Long port;
+
 
 	@Override
 	public String toString()

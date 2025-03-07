@@ -144,7 +144,7 @@ public class TorrentLoader
 		if (files instanceof ArrayList)
 		{
 			// multi file mode
-			torrent.singleFile = false;
+			torrent.isSingleFile = false;
 			torrent.multiFileInfo = new TorrentInfo().multiFileInfo;
 
 			Object pieceLength = infoMap.get("piece length");
@@ -189,7 +189,7 @@ public class TorrentLoader
 		else if (length instanceof Long)
 		{
 			// single file mode
-			torrent.singleFile = true;
+			torrent.isSingleFile = true;
 			torrent.singleFileInfo = new SingleFileInfo();
 
 			Object pieceLength = infoMap.get("piece length");

@@ -27,14 +27,15 @@ public class TrackerRequester
 		int responseCode = connection.getResponseCode();
 		if (!(responseCode == HttpURLConnection.HTTP_OK))
 		{
-			throw new IOException("HTTP status code: " + responseCode);
+			throw new IOException("Failed to contact tracker. HTTP status code: " + responseCode);
 
 		}
 
+		System.out.println("Successfully contacted tracker, response code: " + responseCode);
 		try (InputStream inputStream = connection.getInputStream())
 		{
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-			// I have no idea if this is the right size
+			// TODO: I have no idea if this is the right size
 			byte[] temp = new byte[4096];
 			int read;
 			while ((read = inputStream.read(temp)) != -1)
@@ -83,7 +84,7 @@ public class TrackerRequester
 		sb.append("&uploaded=").append(trackerRequest.uploaded);
 		sb.append("&downloaded=").append(trackerRequest.downloaded);
 		sb.append("&left=").append(trackerRequest.left);
-		sb.append("&compact=1");
+		sb.append("&compact=").append(trackerRequest.compactSupport);
 
 		// must be one of started, completed, stopped if specified
 		if (trackerRequest.event != null)
@@ -115,6 +116,11 @@ public class TrackerRequester
 	{
 		byte[] rawResponse = fetchRawTrackerResponse(trackerRequest);
 
+
+
 		return parseTrackerResponse(rawResponse);
+
+
+
 	}
 }

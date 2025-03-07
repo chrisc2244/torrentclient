@@ -18,7 +18,7 @@ public class TorrentInfo
 	public String encoding;
 
 	// single file or multi-file type info
-	public Boolean singleFile;
+	public Boolean isSingleFile;
 	public SingleFileInfo singleFileInfo;
 	public MultiFileInfo multiFileInfo;
 
@@ -36,7 +36,7 @@ public class TorrentInfo
 			", comment='" + comment + '\'' +
 			", createdBy='" + createdBy + '\'' +
 			", encoding='" + encoding + '\'' +
-			", singleFile=" + singleFile +
+			", singleFile=" + isSingleFile +
 			", singleFileInfo=" + singleFileInfo +
 			", multiFileInfo=" + multiFileInfo +
 			", infoMap=" + infoMap +

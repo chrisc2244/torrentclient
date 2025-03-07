@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import smalltorrentclient.metainfo.BencodingDecoder;
+import smalltorrentclient.peer.Peer;
 
 public class TrackerResponseLoader
 {
@@ -29,36 +30,42 @@ public class TrackerResponseLoader
 		Object warningMessage = trackerResponseMap.get("warning message");
 		if (warningMessage instanceof String)
 		{
+			System.out.println("Warning message located:" + warningMessage);
 			trackerResponse.warningMessage = (String) warningMessage;
 		}
 
 		Object interval = trackerResponseMap.get("interval");
 		if (interval instanceof Long)
 		{
+			System.out.println("interval located:" + interval);
 			trackerResponse.interval = (Long) interval;
 		}
 
 		Object minInterval = trackerResponseMap.get("min interval");
 		if (minInterval instanceof Long)
 		{
+			System.out.println("minInterval located: " + minInterval);
 			trackerResponse.interval = (Long) minInterval;
 		}
 
 		Object trackerId = trackerResponseMap.get("tracker id");
 		if (trackerId instanceof String)
 		{
+			System.out.println("trackerId located: " + trackerId);
 			trackerResponse.trackerId = (String) trackerId;
 		}
 
 		Object complete = trackerResponseMap.get("complete");
 		if (complete instanceof Long)
 		{
+			System.out.println("complete located: " + complete);
 			trackerResponse.complete = (Long) complete;
 		}
 
 		Object incomplete = trackerResponseMap.get("incomplete");
 		if (incomplete instanceof Long)
 		{
+			System.out.println("incomplete located: " + incomplete);
 			trackerResponse.incomplete = (Long) incomplete;
 		}
 

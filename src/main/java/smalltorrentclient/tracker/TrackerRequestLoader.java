@@ -25,7 +25,6 @@ public class TrackerRequestLoader
 
 		trackerRequest.event = "started";
 
-
 		return trackerRequest;
 	}
 
@@ -71,9 +70,6 @@ public class TrackerRequestLoader
 
 		return sha1.digest(encodedMap);
 	}
-
-
-
 
 
 }

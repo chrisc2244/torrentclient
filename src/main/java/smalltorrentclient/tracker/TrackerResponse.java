@@ -1,6 +1,7 @@
 package smalltorrentclient.tracker;
 
 import java.util.ArrayList;
+import smalltorrentclient.peer.Peer;
 
 public class TrackerResponse
 {

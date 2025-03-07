@@ -14,9 +14,11 @@ public class TrackerRequest
 	public int downloaded;
 	public int left;
 
-	public boolean compact = true;
+	// why yes... my client does in fact support this...
+	public final boolean compactSupport = true;
 
 	public boolean noPeerId;
+
 	//not always specified
 	public String event;
 	//optional
@@ -39,7 +41,7 @@ public class TrackerRequest
 				", uploaded=" + uploaded +
 				", downloaded=" + downloaded +
 				", left=" + left +
-				", compact=" + compact +
+				", compact=" + compactSupport +
 				", noPeerId=" + noPeerId +
 				", event=" + event +
 				", ip='" + ip + '\'' +
@@ -49,3 +51,6 @@ public class TrackerRequest
 				'}';
 	}
 }
+
+
+
